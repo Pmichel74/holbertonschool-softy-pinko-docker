@@ -1,0 +1,17 @@
+# Configuration Docker Compose pour l'application Softy Pinko
+# Ce fichier définit les services nécessaires pour exécuter l'application
+
+services:
+  # Service front-end qui sert l'interface utilisateur
+  web:
+    build: ./front-end    # Construction de l'image à partir du Dockerfile dans ./front-end
+    ports:
+      - "9000:9000"       # Exposition du port 9000 (host:container)
+    depends_on:
+      - backend           # Le service web démarre après le service backend
+
+  # Service back-end qui fournit l'API
+  backend:
+    build: ./back-end     # Construction de l'image à partir du Dockerfile dans ./back-end
+    ports:
+      - "5252:5252"       # Exposition du port 5252 (host:container)

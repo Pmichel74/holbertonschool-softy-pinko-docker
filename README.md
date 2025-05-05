@@ -138,7 +138,7 @@ Contributions to this project are welcome. To contribute:
 
 ## 👨‍💻 Author
 
-- [Your Name](https://github.com/Pmichel74)
+- [Patrick MICHEL](https://github.com/Pmichel74)
 
 ## 📄 License
 

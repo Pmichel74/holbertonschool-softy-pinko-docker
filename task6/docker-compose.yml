@@ -1,37 +1,26 @@
-# Configuration Docker Compose pour l'application Softy Pinko avec architecture à trois niveaux
-# Ce fichier définit les services, réseaux et volumes pour l'environnement complet
-
-version: '3'  # Version du format de fichier Docker Compose
-
+version: '4 or 5'
 services:
-  # Service front-end - Interface utilisateur servie par Nginx
-  front-end:
-    build: ./front-end  # Chemin vers le répertoire contenant le Dockerfile du front-end
-    # Pas d'exposition directe du port vers l'hôte pour plus de sécurité
-    # Le service n'est accessible que par le proxy et d'autres services internes
-    networks:
-      - softy-pinko-network  # Connexion au réseau interne de l'application
-
-  # Service back-end - API REST servie par un serveur Python
   back-end:
-    build: ./back-end  # Chemin vers le répertoire contenant le Dockerfile du back-end
-    # Pas d'exposition directe du port vers l'hôte pour plus de sécurité
-    # Le service n'est accessible que par le proxy et d'autres services internes
-    networks:
-      - softy-pinko-network  # Connexion au réseau interne de l'application
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    image: softy-pinko-back-end:task4
 
-  # Service proxy - Point d'entrée unique de l'application utilisant Nginx
-  proxy:
-    build: ./proxy  # Chemin vers le répertoire contenant le Dockerfile du proxy
-    ports:
-      - "80:80"  # Exposition du port 80 du conteneur sur le port 80 de l'hôte
+  front-end:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: softy-pinko-front-end:task4
     depends_on:
-      - front-end  # Le proxy démarre après le front-end
-      - back-end   # Le proxy démarre après le back-end
-    networks:
-      - softy-pinko-network  # Connexion au réseau interne de l'application
+      - back-end
 
-# Définition des réseaux Docker utilisés par l'application
-networks:
-  softy-pinko-network:  # Réseau interne pour la communication entre les services
-    driver: bridge      # Utilisation du pilote bridge (par défaut)
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: softy-pinko-proxy:task5
+    ports:
+      - "80:80"
+    depends_on:
+      - back-end
+      - front-end

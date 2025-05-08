@@ -1,8 +1,8 @@
-# Use the latest version of Nginx as a parent image
 FROM nginx:latest
 
-# Copy the front-end files into the container at /var/www/html/softy-pinko-front-end
 COPY ./softy-pinko-front-end /var/www/html/softy-pinko-front-end
 
-# Copy the Nginx configuration file into the container at /etc/nginx/conf.d/default.conf
-COPY ./softy-pinko-front-end.conf /etc/nginx/conf.d/default.conf
+COPY ./softy-pinko-front-end.conf  /etc/nginx/conf.d/default.conf
+
+#docker build -f ./front-end/Dockerfile -t softy-pinko-front-end:task2 ./front-end
+#docker run -p 9000:9000 -it --rm --name softy-pinko-front-end-task2 softy-pinko-front-end:task2
